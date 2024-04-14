@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centered Buttons</title>
+<style>
+  /* Center the content */
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  /* Style the buttons */
+  .container .button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    margin: 10px; /* Add some spacing around the buttons */
+  }
+
+  /* Style the notification and error messages */
+  .container .message {
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  {% if notification %}
+    <div class="message">{{ notification }}</div>
+  {% endif %}
+
+  {% if error_message %}
+    <div class="message">{{ error_message }}</div>
+  {% endif %}
+
+  <div>
+    <a href="/" class="button">Get Data</a>
+    <a href="#" class="button">Admin</a>
+  </div>
+</div>
+
+</body>
+</html>

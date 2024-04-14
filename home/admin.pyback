@@ -1,0 +1,150 @@
+from django.contrib import admin
+from django.core.mail import send_mail
+from .models import OnlineStudents, EmailTemplate
+from django import forms
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib import messages
+
+class EmailForm(forms.Form):
+    email_template = forms.ModelChoiceField(queryset=EmailTemplate.objects.all())
+    
+def send_email_action(modeladmin, request, queryset):
+    if 'apply' in request.POST:
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            selected_students = queryset
+            email_template = form.cleaned_data['email_template']
+            selected_emails = selected_students.values_list('email', flat=True)
+            for email in selected_emails:
+                # Debug message to check the selected email template
+                print("Selected email template:", email_template.subject)
+                # Debug message to check the recipient email
+                print("Sending email to:", email)
+                send_mail(
+                    email_template.subject,
+                    email_template.message,
+                    'inmotion@dtechnologys.com',
+                    [email],
+                    fail_silently=False,
+                )
+                
+            # Redirect back to change list view after sending emails
+            opts = modeladmin.model._meta
+            return HttpResponseRedirect(reverse('admin:%s_%s_changelist' % (opts.app_label, opts.model_name)))
+    else:
+        form = EmailForm()
+
+    context = {
+        'form': form,
+    }
+
+    # Set a message to indicate that the action has been applied
+    messages.info(request, "Emails have been sent successfully.")
+    
+    # Redirect back to the change list view
+    opts = modeladmin.model._meta
+    return HttpResponseRedirect(reverse('admin:%s_%s_changelist' % (opts.app_label, opts.model_name)))
+
+send_email_action.short_description = "Send email to selected students"
+    
+# def send_email_action(modeladmin, request, queryset):
+#     if 'apply' in request.POST:
+#         form = EmailForm(request.POST)
+#         if form.is_valid():
+#             selected_students = queryset
+#             email_template = form.cleaned_data['email_template']
+#             selected_emails = selected_students.values_list('email', flat=True)
+#             for email in selected_emails:
+#                 send_mail(
+#                     email_template.subject,
+#                     email_template.message,
+#                     'inmotion@dtechnologys.com',
+#                     [email],
+#                     fail_silently=False,
+#                 )
+                
+#             # Redirect back to change list view after sending emails
+#             opts = modeladmin.model._meta
+#             return HttpResponseRedirect(reverse('admin:%s_%s_changelist' % (opts.app_label, opts.model_name)))
+#     else:
+#         form = EmailForm()
+
+#     context = {
+#         'form': form,
+#     }
+
+#     return modeladmin.render_change_form(
+#         request, context, add=False, change=False, form_url='', obj=None
+#     )
+
+# send_email_action.short_description = "Send email to selected students"
+
+# def send_email_action(modeladmin, request, queryset):
+#     form = None
+#     if 'apply' in request.POST:
+#         form = EmailForm(request.POST)
+#         if form.is_valid():
+#             selected_students = queryset
+#             email_template = form.cleaned_data['email_template']
+#             selected_emails = selected_students.values_list('email', flat=True)
+#             for email in selected_emails:
+#                 send_mail(
+#                     email_template.subject,
+#                     email_template.message,
+#                     'inmotion@dtechnologys.com',
+#                     [email],
+#                     fail_silently=False,
+#                 )
+#     else:
+#         form = EmailForm()
+
+#     return admin.actions.RedirectModelAdmin(
+#         modeladmin.model,
+#         modeladmin.get_admin_url('changelist'),
+#         request,
+#         'send_email_action',
+#     )
+
+
+
+
+
+
+
+# def send_email_action(modeladmin, request, queryset):
+#     # Retrieve selected users
+#     selected_students = queryset
+
+#     # Retrieve email template
+#     email_template = EmailTemplate.objects.get(pk=request.POST.get('email_template'))
+
+#     # Fetch emails from selected students
+#     selected_emails = selected_students.values_list('email', flat=True)
+
+#     # Compose email
+#     for email in selected_emails:
+#         send_mail(
+#             email_template.subject,
+#             email_template.message,
+#             '',
+#             [email],
+#             fail_silently=False,
+#         )
+
+# send_email_action.short_description = "Send email to selected students"
+
+# class OnlineStudentsAdmin(admin.ModelAdmin):
+
+
+class OnlineStudentsAdmin(admin.ModelAdmin):
+    list_display = ('name','email','course_ordered', 'date_paid', 'date_completed', 'amount_paid')
+    list_filter = ('date_paid', 'date_completed', 'order_status')
+    search_fields = ('name', 'course_ordered', 'order_id', 'user_id')
+    date_hierarchy = 'date_paid'
+    actions = [send_email_action]
+    
+
+
+admin.site.register(OnlineStudents, OnlineStudentsAdmin)
+admin.site.register(EmailTemplate)

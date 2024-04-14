@@ -1,0 +1,19 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-LCfW6vVf3b3i5RDqSzR8s0v+Qzdp2pSWS4Gpk01S/zI=" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    {% if show_email_template %}
+        <div class="module">
+            <h2>Email Template</h2>
+            <div>
+                <label for="id_email_template">Select Email Template:</label>
+                {{ adminform.form.email_template }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
