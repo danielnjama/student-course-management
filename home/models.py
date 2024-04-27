@@ -36,3 +36,22 @@ def ensure_single_active(sender, instance, **kwargs):
     if instance.active:
     # Deactivate all other active EmailTemplate instances
         EmailTemplate.objects.exclude(pk=instance.pk).update(active=False)
+
+
+
+
+
+class EmailSettings(models.Model):
+    host = models.CharField(max_length=100, verbose_name="Email Host")
+    user = models.CharField(max_length=100, verbose_name="Email Host User")
+    password = models.CharField(max_length=100, verbose_name="Email Host Password")
+    default_from_email = models.EmailField(verbose_name="Default From Email",blank=True,null=True)
+    port = models.IntegerField(verbose_name="Email Port")
+    use_tls = models.BooleanField(default=True,verbose_name="Email use TLS")
+
+    def __str__(self):
+        return self.host
+    class Meta:
+        verbose_name = "Email Settings"
+        verbose_name_plural = "Email Settings"
+        

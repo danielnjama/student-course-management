@@ -82,9 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dtechnol_wp942',
         'USER': 'dtechnol_wp942',
-        # 'PASSWORD': '1sp!3Sw]73',
-        'PASSWORD': '1sppythonSw]73',
-        # 'HOST': 'localhost',
+        'PASSWORD': '1sp!3Sw]73',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
@@ -144,12 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
 #EMAIL_BACKEND = 'django_ses.SESBackend'
-EMAIL_HOST = 'lon106.truehost.cloud'
-EMAIL_HOST_USER = 'courses@dtechnologys.com'
-EMAIL_HOST_PASSWORD = 'bBtLGJxHP*C5'
-DEFAULT_FROM_EMAIL = ""
-EMAIL_PORT =587 #465
-EMAIL_USE_TLS = False
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

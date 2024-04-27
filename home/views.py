@@ -1,7 +1,27 @@
 from django.shortcuts import render
 from django.db import connections
-from .models import OnlineStudents
+from .models import OnlineStudents,EmailSettings
 from django.contrib.auth.decorators import login_required
+# from home.models import 
+from django.core.exceptions import ObjectDoesNotExist
+
+try:
+    email_settings = EmailSettings.objects.first()
+    if email_settings:
+        EMAIL_HOST = email_settings.host
+        EMAIL_HOST_USER = email_settings.user
+        EMAIL_HOST_PASSWORD = email_settings.password
+        DEFAULT_FROM_EMAIL = email_settings.default_from_email
+        EMAIL_PORT = email_settings.port
+        EMAIL_USE_TLS = email_settings.use_tls
+    
+except ObjectDoesNotExist:    
+    EMAIL_HOST = ''
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
+    DEFAULT_FROM_EMAIL = ''
+    EMAIL_PORT =587 #465
+    EMAIL_USE_TLS = False
 
 
 @login_required(login_url='/admin')
