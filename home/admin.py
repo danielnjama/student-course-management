@@ -7,7 +7,7 @@ from .models import OnlineStudents, EmailTemplate,EmailSettings
 try:
     email_settings = EmailSettings.objects.first()
 except:
-    pass
+    email_settings = None
 default_email_sender = ''
 if email_settings:
     default_email_sender = email_settings.default_from_email
