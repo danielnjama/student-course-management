@@ -3,6 +3,14 @@ from django.contrib import admin, messages
 from .models import OnlineStudents, EmailTemplate,EmailSettings
 
 
+#get default senders email
+email_settings = EmailSettings.objects.first()
+default_email_sender = ''
+if email_settings:
+    default_email_sender = email_settings.default_from_email
+
+
+
 class OnlineStudentsAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'course_ordered', 'date_paid', 'date_completed', 'amount_paid')
     list_filter = ('date_paid', 'date_completed', 'order_status')
@@ -24,7 +32,7 @@ class OnlineStudentsAdmin(admin.ModelAdmin):
             send_mail(
                 active_template.subject,
                 email_content,
-                'inmotion@dtechnologys.com',  # Replace with your email sender
+                default_email_sender,  # Replace with your email sender
                 [student.email],
                 fail_silently=False,
             )
