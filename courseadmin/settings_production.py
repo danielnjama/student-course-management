@@ -71,12 +71,8 @@ WSGI_APPLICATION = 'courseadmin.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'djangodb',
-        'USER': 'djangouser',
-        'PASSWORD': 'userpass',
-        'HOST': 'db',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     },
     'wordpress': {
         'ENGINE': 'django.db.backends.mysql',

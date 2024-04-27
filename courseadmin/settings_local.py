@@ -140,9 +140,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
 #EMAIL_BACKEND = 'django_ses.SESBackend'
-EMAIL_HOST = 'lon106.truehost.cloud'
-EMAIL_HOST_USER = 'courses@dtechnologys.com'
-EMAIL_HOST_PASSWORD = 'bBtLGJxHP*C5'
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = ""
 EMAIL_PORT =587 #465
 EMAIL_USE_TLS = False
